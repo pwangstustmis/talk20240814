@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
-
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,47 +41,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var wdesc='';
-  var wx='';
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchData();
-  }
-
-  fetchData() async {
-    var url = Uri.parse(
-        'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-7355A38B-4D32-4F79-BE84-6095E520CB49&locationName=臺南市&elementName=Wx,T');
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var data = convert.jsonDecode(response.body) as Map<String, dynamic>;
-      wdesc=data['records']['locations'][0]['location'][0]['weatherElement'][0]
-          ['time'][0]['elementValue'][0]['value'];
-      wx=data['records']['locations'][0]['location'][0]['weatherElement'][1]
-          ['time'][0]['elementValue'][0]['value'];
-      setState(() {
-        
-      });
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
-  }
-
+  final _controller = YoutubePlayerController.fromVideoId(
+  videoId: '5AtF82kcRgA',
+  autoPlay: true,
+  params: const YoutubePlayerParams(showFullscreenButton: true)
+);
+TextEditingController text1=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Hello'),
+        title: TextField(controller: text1,),
       ),
-      body: Center(child: Column(children:[
-        Text(wdesc),
-        Text(wx)
-      ])),
+      body: Column(children:[
+        Expanded(flex:1,child:Container(width:double.maxFinite,color:Colors.red,child:YoutubePlayer(
+  controller: _controller,
+  aspectRatio: 16 / 9,
+)
+)),
+        Expanded(flex:2,child:Container(color:Colors.green)),
+      ]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _controller.loadVideoById(videoId: text1.text);
+          setState(() {
+            
+          });
+        },
         tooltip: '按鈕說明文字',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
