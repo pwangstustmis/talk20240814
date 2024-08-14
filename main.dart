@@ -47,9 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Hello'),
       ),
-      body: Row(children:[
-        Container(width:300,height:300,color:Colors.red),
-        Container(width:300,height:300,color:Colors.green),
+      body: Column(children:[
+        Expanded(flex:1,child:Container(color:Colors.red)),
+        Expanded(flex:2,child:Container(color:Colors.green)),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
