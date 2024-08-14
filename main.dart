@@ -43,7 +43,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _controller = YoutubePlayerController.fromVideoId(
   videoId: '5AtF82kcRgA',
-  autoPlay: false,
+  autoPlay: true,
   params: const YoutubePlayerParams(showFullscreenButton: true)
 );
 
@@ -63,7 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
         Expanded(flex:2,child:Container(color:Colors.green)),
       ]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _controller.loadVideoById(videoId: 'YYYXV_a6tQo');
+        },
         tooltip: '按鈕說明文字',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
