@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +41,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _controller = YoutubePlayerController.fromVideoId(
+  videoId: '5AtF82kcRgA',
+  autoPlay: false,
+  params: const YoutubePlayerParams(showFullscreenButton: true)
+);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Hello'),
       ),
       body: Column(children:[
-        Expanded(flex:1,child:Container(color:Colors.red)),
+        Expanded(flex:1,child:Container(width:double.maxFinite,color:Colors.red,child:YoutubePlayer(
+  controller: _controller,
+  aspectRatio: 16 / 9,
+)
+)),
         Expanded(flex:2,child:Container(color:Colors.green)),
       ]),
       floatingActionButton: FloatingActionButton(
